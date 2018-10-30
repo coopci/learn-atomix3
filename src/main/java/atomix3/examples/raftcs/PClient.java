@@ -1,7 +1,10 @@
 package atomix3.examples.raftcs;
 
+import java.time.Duration;
+
 import io.atomix.cluster.Node;
 import io.atomix.cluster.discovery.BootstrapDiscoveryProvider;
+import io.atomix.cluster.discovery.MulticastDiscoveryProvider;
 import io.atomix.core.Atomix;
 import io.atomix.core.map.DistributedMap;
 import io.atomix.core.map.MapEvent;
@@ -36,7 +39,14 @@ public class PClient {
                             .withId("raft-3")
                             .withAddress("localhost:8703")
                             .build())
-                        .build()).build();
+                        .build())
+                
+//                .withMembershipProvider(MulticastDiscoveryProvider.builder()
+//                        .withBroadcastInterval(Duration.ofMillis(100))
+//                        .build())
+                
+                
+                .build();
         atomix.start().join();
         
         this.map = atomix.getMap("map1");
@@ -55,7 +65,7 @@ public class PClient {
         for (int i = 1; i <= n; ++i) {
             
             String memberId = "client-" + i;
-            int port = 8710 + i;
+            int port = 8810 + i;
             String address = "localhost:" + port;
             
             PClient client = new PClient(memberId, address);
@@ -65,6 +75,6 @@ public class PClient {
     
     public static void main(String[] args) {
         
-        start(30);
+        start(100);
     }
 }

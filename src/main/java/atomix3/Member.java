@@ -9,6 +9,7 @@ import io.atomix.cluster.ClusterMembershipEventListener;
 import io.atomix.cluster.MemberId;
 import io.atomix.core.Atomix;
 import io.atomix.core.value.AtomicValue;
+import io.atomix.protocols.backup.MultiPrimaryProtocol;
 
 public class Member {
 
@@ -35,6 +36,12 @@ public class Member {
 		Atomix atomix = new Atomix("atomix.conf");
 
 		atomix.start().join();
+		
+		atomix.mapBuilder("Adsf")
+			.withProtocol(
+				MultiPrimaryProtocol.builder("data").build())
+			.build();
+		
 		atomix.getMembershipService().addListener(new ClusterMembershipEventListener() {
 
 			public void event(ClusterMembershipEvent event) {

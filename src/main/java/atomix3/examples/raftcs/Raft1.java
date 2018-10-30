@@ -9,6 +9,6 @@ public class Raft1 {
         
 		
 		
-		Raft.start("raft-cs2/raft.conf");
+		Member.start("raft-cs2/raft.conf");
 	}
 }
